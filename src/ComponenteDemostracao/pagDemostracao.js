@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import apispf from './apispf';
+import {  Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
@@ -8,6 +9,8 @@ export default class PagDemostracao extends Component {
 
     state = {
         clientes: [],
+        nodata: '',
+        loading: true,
     };
 
     fetchClientes = async () => {
@@ -15,6 +18,12 @@ export default class PagDemostracao extends Component {
         const response = await apispf.get(''); 
         console.log(response.data);
         this.setState({ clientes: response.data });
+        this.setState({ loading: false });
+
+        if (response.data.status === 'none') {
+            this.setState({ nodata: 'none' });
+        }
+
 
     }
 
@@ -27,10 +36,11 @@ export default class PagDemostracao extends Component {
 
     render() {
 
-        const { clientes } = this.state;
+        const { clientes, loading } = this.state;
 
         return (
 
+            <>
             <div className="container">
         
                 <div className='card p-2 mt-2 text-center'>
@@ -40,18 +50,21 @@ export default class PagDemostracao extends Component {
         
                 <div className="row">
                     <div className="col-md-12">
-                        <div className="d-flex gap-2 justify-content-center py-5">
-                            <a className="badge text-bg-primary rounded-pill"> Atualizar </a>                
-                            <a className="badge text-bg-success rounded-pill">Novo Cliente</a>
-                            <a className="badge text-bg-danger rounded-pill">Ajuda</a>
-                            <a className="badge text-bg-secondary rounded-pill">Informações Adicionais</a>
-                            <a className="badge text-bg-info rounded-pill">Configurações</a>
-                            <a className="badge text-bg-dark rounded-pill">Sair</a>
+                        <div className="d-flex gap-2 justify-content-center py-5">          
+                            <a href='/novo-cliente' className="badge text-bg-success rounded-pill">Novo Cliente</a>
+
                         </div>
                     </div>
                 </div>
         
                 <div className="row">
+
+                    {loading ? (
+                        <p className="text-muted mt-5 text-center">Carregando clientes ...</p>
+                        
+                    ) : (
+
+                        
                     <ol className="list-group list-group-flush">
 
                         {clientes.map(cliente => (
@@ -60,14 +73,22 @@ export default class PagDemostracao extends Component {
                                 <div className="ms-2 me-auto">
                                     <div className="fw-bold">{cliente.nome}</div>
                                 </div>
-                                <span className="badge bg-primary rounded-pill">Detalhes</span>
+                                <span className="badge bg-primary rounded-pill text-white">
+                                    <Link className="link" to={`/cliente/${cliente.codcliente}`} >
+                                        Detalhes 
+                                    </Link>
+                                </span>
                             </li>
                         ))}       
-                      
+                    
                     </ol>
+
+                    ) }
+
                 </div>
         
             </div>
+            </>
         
           );
     }

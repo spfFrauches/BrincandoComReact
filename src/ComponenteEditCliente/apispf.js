@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const apisave = axios.create({
 
-    baseURL: 'https://saulofrauches.com.br/apispf/public/new-cliente',
+    baseURL: 'https://saulofrauches.com.br/apispf/public/cliente',
 
 });
 

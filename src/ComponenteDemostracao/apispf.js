@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const apispf = axios.create({
 
-    //baseURL: 'https://api.github.com',
-    baseURL: 'http://localhost/ApiSpf/public/get-clientes',
+    //baseURL: 'http://localhost/ApiSpf/public/get-clientes',
+    baseURL: 'https://saulofrauches.com.br/apispf/public/get-clientes',
 
 });
 
