@@ -1,10 +1,10 @@
 import React, { Component, useEffect,  useState } from 'react';
 import { useParams, withRouter } from 'react-router-dom';
 import apidelete from './apidelete';
+import apiupdate from './apiupdate';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
-
 
 function PagEditCliente() {
 
@@ -44,16 +44,28 @@ function PagEditCliente() {
     };
 
     const handleSubmitUpdate = async (event) => {
-
         event.preventDefault();
-        
         console.log('Dados submetidos para update:', { nome, email, telefone, codcliente });
-
-      
-
+        const responseUpdate = await apiupdate.post('', {
+            codcliente:codcliente,
+            nome:nome,
+            email:email,
+            telefone:telefone,
+        }); 
+        window.location.href ='http://localhost:3000'
     };
 
-    
+    const handleInputChangeNome = e => {
+        setNome(e.target.value);
+     };
+
+    const handleInputChangeEmail = e => {
+        setEmail(e.target.value);
+     };
+
+     const handleInputChangeTelefone = e => {
+        setTelefone(e.target.value);
+     };
 
   
     return (
@@ -89,7 +101,7 @@ function PagEditCliente() {
                            value={nome}
                             type="text"
                             className="form-control"  
-                            placeholder="Carregando..." />
+                            placeholder="Carregando..." onChange={handleInputChangeNome} />
                     </div>
                     <div className="col-md-12 mb-3">
                         <label  className="form-label">Email</label>
@@ -97,15 +109,15 @@ function PagEditCliente() {
                            value={email}
                             type="text"
                             className="form-control"  
-                            placeholder="Carregando..." />
+                            placeholder="Carregando..."  onChange={handleInputChangeEmail}  />
                     </div>
                     <div className="col-md-12 mb-3">
-                        <label  className="form-label">Email</label>
+                        <label  className="form-label">Telefone</label>
                         <input  
                            value={telefone}
                             type="text"
                             className="form-control"  
-                            placeholder="Carregando..." />
+                            placeholder="Carregando..."  onChange={handleInputChangeTelefone}  />
                     </div>
 
                     <div className="col-md-12 mb-3">
